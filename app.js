@@ -3,9 +3,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
-// app.set('port', (process.env.PORT || 5000));
-app.listen(process.env.PORT || 5000);
-app.use(express.static('client/index.html'));
+var port = process.env.PORT || 4568;
+app.listen(port);
+
+// app.use(express.static('client/index.html'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -27,7 +28,9 @@ var connection = mysql.createConnection({
   }
 });
 
-
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/client/index.html');
+});
 
 app.post('/datain', function (req, res) {
   var data = req.body
@@ -56,4 +59,3 @@ app.get('/retrieve', function (req, res) {
 })
 
 
-});
