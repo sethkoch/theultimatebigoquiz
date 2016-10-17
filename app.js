@@ -3,7 +3,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
+app.set('port', (process.env.PORT || 5000));
 
+app.use(express.static('/client/index.html'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -53,4 +55,5 @@ app.get('/retrieve', function (req, res) {
 });
 })
 
-app.listen(8080);
+app.listen(port);
+});
