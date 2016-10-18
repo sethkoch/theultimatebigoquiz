@@ -1,4 +1,17 @@
-var mysql      = require('mysql');
+var pg = require('pg');
+
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client){
+  if (err) throw err;
+  console.log('Connected to postgres! Gettting schemas...');
+
+  client
+   .query('SELECT table_schema, table_name FROM information_schema.tables;')
+   .on('row', function(row) {
+    console.log(JSON.stringify(row));
+   })
+})
+
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
@@ -11,22 +24,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : 'poo',
-  database : 'sethsfullstacktherealone'
-});
 
 
-  connection.connect(function(err){
-  if(err){
-    console.log('Database connection error');
-  }
-  else{
-    console.log('Database connection successful');
-  }
-});
+
+
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/client/index.html');

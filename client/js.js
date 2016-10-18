@@ -5,14 +5,14 @@ $('#theButton').click(function(){
    console.log(answer);
    var toSend = {id :answer}
    $.ajax({
-    url: 'http://127.0.0.1:8080/datain',
+    url: '/datain',
     type: 'POST',
     data: JSON.stringify(toSend),
     datatype: 'jsonp'
   });
 
   $.ajax({
-    url: 'http://127.0.0.1:8080/retrieve',
+    url: '/retrieve',
     type: 'GET',
     datatype: 'jsonp',
     success: function(result){
